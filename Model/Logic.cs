@@ -17,22 +17,16 @@ namespace TicTacToe.Model
 
         public Logic()
         {
-            table = new int[100, 100];
+            table = new int[SIZE, SIZE];
 
-            for (int i = 0; i < 100; i++)
-            {
-                for (int j = 0; j < 100; j++)
-                {
-                    table[i,j] = 0;
-                }
-            }
+            NewGame();
 
         }
         public void NewGame()
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < SIZE; i++)
             {
-                for (int j = 0; j < 100; j++)
+                for (int j = 0; j < SIZE; j++)
                 {
                     table[i, j] = 0;
                 }
@@ -52,97 +46,145 @@ namespace TicTacToe.Model
         public Boolean IsGameOver()
         {
 
-            //check row
+            if (IsRow())
+                return true;
+
+            if (IsCol())
+                return true;
+
+            if (IsDiagonal())
+                return true;
+
+            if (IsAntiDiagonal())
+                return true;
+
+            return false;
+        }
+
+        private Boolean IsRow()
+        {
+            
+            int counter = 0;
+            int i = row;
+            int j = col;
+
+            //check row to the right
+            while (j <= SIZE && table[i, j] == player)
+            {
+                counter++;
+                j++;
+            }
+
+            //back to left of the latest piece position (we don't count the original piece twice)
+            j = col - 1;
+
+            //check row to the left
+            while (0 <= j && table[i, j] == player)
+            {
+
+                counter++;
+                j--;
+            }
+
+            if (counter >= 5)
+                return true;
+
+            return false;
+        }
+
+        private Boolean IsCol()
+        {
+
+            int i = row;
+            int j = col;
             int counter = 0;
 
-            for (int i = 0; i < 100; i++)
+            //check column upwards
+            while (i >= 0 && table[i, j] == player)
             {
-                if (table[row, i] == player)
-                {
-                    counter++;
-                }
-                else
-                {
-                    counter = 0;
-                }
-
-                if (counter == 5)
-                    return true;
+                counter++;
+                i--;
             }
 
-            counter = 0;
+            //back to one piece under the original piece
+            i = row + 1;
 
-            //check column
-            for (int i = 0; i < 100; i++)
+            //check column downwards
+            while (i <= SIZE && table[i, j] == player)
             {
-                if (table[i, col] == player)
-                {
-                    counter++;
-
-                }
-                else
-                {
-                    counter = 0;
-                }
-                if (counter == 5)
-                    return true;
-
+                counter++;
+                i++;
             }
 
-            counter = 0;
+            if (counter >= 5)
+                return true;
 
-            //check diagonal
-            /*for (int i = row + col; i >= 0; i--)
+
+            return false;
+        }
+
+        private Boolean IsDiagonal()
+        {
+            int counter = 0;
+            int i = row;
+            int j = col;
+
+            //check diagonal upwards
+            while (i >= 0 && j <= SIZE && table[i, j] == player)
             {
-                for (int j = 0; j < row + col; j++)
-                {
-
-                    if (table[i, j] == player)
-                    {
-
-                        counter++;
-                    }
-                    else
-                    {
-                        counter = 0;
-                    }
-
-                    if (counter == 5)
-                        return true;
-                }
-
-            }*/
-            
-
-            counter = 0;
-
-            //check anti-diagonal
-
-            if (row >= col)
-            {
-                for (int i = 0; i < 100 - col + row; i++)
-                {
-                    for (int j = 0; j < 100 - row; j++)
-                    {
-                        if (table[i, j] == player)
-                        {
-                            counter++;
-                        }
-                        else
-                        {
-                            counter = 0;
-                        }
-
-                        if (counter == 5)
-                            return true;
-                    }
-
-                }
+                counter++;
+                i--;
+                j++;
             }
-            else
+
+            //back to one pice under and left of original piece 
+            i = row + 1;
+            j = col - 1;
+
+            //check diagonal downwards
+            while (i <= SIZE && j >= 0 && table[i, j] == player)
             {
-               
+                counter++;
+                i++;
+                j--;
             }
+
+            if (counter >= 5)
+                return true;
+
+            return false;
+        }
+
+        private Boolean IsAntiDiagonal()
+        {
+            int counter = 0;
+            int i = row;
+            int j = col;
+
+
+            //check antidiagonal upwards
+            while (i >= 0 && j >= 0 && table[i, j] == player)
+            {
+                counter++;
+                i--;
+                j--;
+            }
+
+            //back to one piece under and right of original piece
+            i = row + 1;
+            j = col + 1;
+
+            //check antidiagonal downwards and right
+            while (i <= SIZE && j <= SIZE && table[i, j] == player)
+            {
+                counter++;
+                i++;
+                j++;
+            }
+
+            if (counter >= 5)
+                return true;
+
 
             return false;
         }
