@@ -8,18 +8,28 @@ namespace TicTacToe.Model
 {
     public class Logic
     {
-        private int[,] table;
+       
         private int row;
         private int col;
         private int player;
+
+        private int[,] testTable;
+
+        private Evaluate eval;
+        private State state;
 
         public const int SIZE = 50;
 
         public Logic()
         {
-            table = new int[SIZE, SIZE];
+
+            state = new State(SIZE);
+
+            testTable = new int[SIZE, SIZE];
 
             NewGame();
+           
+            eval = new Evaluate();
 
         }
         public void NewGame()
@@ -28,7 +38,10 @@ namespace TicTacToe.Model
             {
                 for (int j = 0; j < SIZE; j++)
                 {
-                    table[i, j] = 0;
+
+                    state.SetTableValue(i,j,0);
+                    state.SetValueTableValue(i,j,0);
+              
                 }
             }
         }
@@ -39,9 +52,57 @@ namespace TicTacToe.Model
             col = actCol;
             player = actPlayer;
 
-            table[row, col] = player;
+            state.SetTableValue(row, col, player);  //set new piece on table
 
+            
+
+            for (int i = 0; i < SIZE; i++)
+            {
+                for (int j = 0; j < SIZE; j++)
+                {
+                    if (state.GetTableValue(i, j) == 0)
+                        TestStep(i, j, actPlayer);
+                }
+            }
+
+            testTable = state.ValTable();
+            
         }
+
+        public bool CanPlace(int row, int col)  //only used during testing process
+        {
+            if (state.GetTableValue(row, col) == 0)
+                return true;
+
+            return false;
+        }
+
+        public string ValueTableValue(int row, int col)
+        {
+            return state.GetValueTableValue(row, col).ToString();  //only used during testing process
+        }
+
+        public void TestStep(int testRow, int testCol, int testPlayer)
+        {
+ 
+
+            //get the area where this new piece can potentially create 5 in a row, or column or the two diagonals
+            //thus creating a star with the new piece in the middle
+            List<string> star = eval.Star(state, testRow, testCol, testPlayer); 
+ 
+            //using this star, get the strength of this actual piece
+            eval.GetFieldValue(star, testPlayer);
+
+            //set this strength value in the value table containing only the strength of pieces, not the actual pieces
+            UpdateValueTable(testRow, testCol);
+
+            int testval = state.GetValueTableValue(testRow, testCol);
+
+
+            
+        }
+
+       
 
         public Boolean IsGameOver()
         {
@@ -69,22 +130,22 @@ namespace TicTacToe.Model
             int j = col;
 
             //check row to the right
-            while (j <= SIZE && table[i, j] == player)
+            while (j < SIZE && state.GetTableValue(i,j) == player)
             {
                 counter++;
                 j++;
-            }
+            }         
 
             //back to left of the latest piece position (we don't count the original piece twice)
             j = col - 1;
 
             //check row to the left
-            while (0 <= j && table[i, j] == player)
+            while (-1 < j && state.GetTableValue(i, j) == player)
             {
-
                 counter++;
                 j--;
             }
+
 
             if (counter >= 5)
                 return true;
@@ -100,7 +161,7 @@ namespace TicTacToe.Model
             int counter = 0;
 
             //check column upwards
-            while (i >= 0 && table[i, j] == player)
+            while (i > -1 && state.GetTableValue(i, j) == player)
             {
                 counter++;
                 i--;
@@ -110,7 +171,7 @@ namespace TicTacToe.Model
             i = row + 1;
 
             //check column downwards
-            while (i <= SIZE && table[i, j] == player)
+            while (i < SIZE && state.GetTableValue(i, j) == player)
             {
                 counter++;
                 i++;
@@ -130,7 +191,7 @@ namespace TicTacToe.Model
             int j = col;
 
             //check diagonal upwards
-            while (i >= 0 && j <= SIZE && table[i, j] == player)
+            while (i > -1 && j < SIZE && state.GetTableValue(i, j) == player)
             {
                 counter++;
                 i--;
@@ -142,7 +203,7 @@ namespace TicTacToe.Model
             j = col - 1;
 
             //check diagonal downwards
-            while (i <= SIZE && j >= 0 && table[i, j] == player)
+            while (i < SIZE && j > -1 && state.GetTableValue(i, j) == player)
             {
                 counter++;
                 i++;
@@ -163,7 +224,7 @@ namespace TicTacToe.Model
 
 
             //check antidiagonal upwards
-            while (i >= 0 && j >= 0 && table[i, j] == player)
+            while (i > -1 && j > -1 && state.GetTableValue(i, j) == player)
             {
                 counter++;
                 i--;
@@ -175,7 +236,7 @@ namespace TicTacToe.Model
             j = col + 1;
 
             //check antidiagonal downwards and right
-            while (i <= SIZE && j <= SIZE && table[i, j] == player)
+            while (i < SIZE && j < SIZE && state.GetTableValue(i, j) == player)
             {
                 counter++;
                 i++;
@@ -187,6 +248,20 @@ namespace TicTacToe.Model
 
 
             return false;
+        }
+
+        public void UpdateValueTable(int row, int col)
+        {
+
+            int oldValue = state.GetValueTableValue(row,col);
+
+            int newValue = eval.GetFieldValue(eval.Star(state, row, col, 2), 2) -
+                            eval.GetFieldValue(eval.Star(state, row, col, 1), 1);
+
+            state.SetValueTableValue(row, col, newValue);
+
+            state.SetValue(state.GetValue() - (oldValue - newValue));
+
         }
 
     }

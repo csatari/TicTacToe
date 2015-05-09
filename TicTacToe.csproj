@@ -53,7 +53,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Evaluate.cs" />
     <Compile Include="Model\Logic.cs" />
+    <Compile Include="Model\State.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
     <Compile Include="ViewModel\TicTacToeElement.cs" />
     <Compile Include="ViewModel\TicTacToeViewModel.cs" />

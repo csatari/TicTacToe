@@ -16,6 +16,8 @@ namespace TicTacToe.ViewModel
 
         private Logic _model;
 
+        
+
         private ObservableCollection<TicTacToeElement> _Elements;
         public ObservableCollection<TicTacToeElement> Elements
         {
@@ -53,6 +55,7 @@ namespace TicTacToe.ViewModel
             _model = model;
             Size = Logic.SIZE;
             CreateGameTable(Logic.SIZE);
+
         }
 
         #endregion
@@ -108,6 +111,21 @@ namespace TicTacToe.ViewModel
 
             int player = Player ? 2 : 1;
             _model.UpdateTable(element.X, element.Y, player);
+
+
+            #region Evaluations on screen for testing
+            /*
+            foreach (TicTacToeElement _element in Elements)
+            {
+                if (_model.CanPlace(_element.X, _element.Y))
+                {
+                    _element.Text = _model.ValueTableValue(_element.X, _element.Y);
+                }
+            }
+            */
+            #endregion
+
+
             bool end = _model.IsGameOver();
             if (end)
             {
