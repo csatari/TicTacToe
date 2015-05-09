@@ -42,3 +42,5 @@ E:\ELTE\KOMPONENS\TicTacToe\obj\Debug\MainWindow.baml
 E:\ELTE\KOMPONENS\TicTacToe\obj\Debug\TicTacToe.g.resources
 E:\ELTE\KOMPONENS\TicTacToe\obj\Debug\TicTacToe.Properties.Resources.resources
 E:\ELTE\KOMPONENS\TicTacToe\obj\Debug\TicTacToe.csproj.GenerateResource.Cache
+E:\ELTE\KOMPONENS\TicTacToe\TicTacToe\bin\Debug\TicTacToeLibrary.dll
+E:\ELTE\KOMPONENS\TicTacToe\TicTacToe\bin\Debug\TicTacToeLibrary.pdb

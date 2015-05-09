@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe", "TicTacToe.csproj", "{A8A25AF7-1C4D-41FB-A864-B000CA1FC5ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe", "TicTacToe\TicTacToe.csproj", "{A8A25AF7-1C4D-41FB-A864-B000CA1FC5ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeLibrary", "..\TicTacToeLibrary\TicTacToeLibrary.csproj", "{A20146E3-877B-4BE8-8AED-77965AFC33D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeLibrary", "TicTacToeLibrary\TicTacToeLibrary.csproj", "{A20146E3-877B-4BE8-8AED-77965AFC33D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
