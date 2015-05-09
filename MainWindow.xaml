@@ -13,14 +13,14 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Command="{Binding StepCommand}" Background="White" CommandParameter="{Binding Id}" Content="{Binding Text}" Focusable="false" MinHeight="30" MinWidth="30" FontWeight="Bold" FontSize="23">
+                        <Button Command="{Binding StepCommand}" Background="White" CommandParameter="{Binding Id}" Content="{Binding Text}" Focusable="false" MinHeight="30" MinWidth="30" MaxHeight="30" MaxWidth="30" FontWeight="Bold" FontSize="19">
                             <Button.Style>
                                 <!-- gomb stílusa, ahol a színét megadjuk -->
                                 <Style TargetType="Button">
                                     <Style.Triggers>
                                         <!-- a szín egy adatkötés hatására fog változni -->
                                         <DataTrigger Binding="{Binding IsEnabled}" Value="True">
-                                            <Setter Property="Background" Value="#EDEDED" />
+                                            <Setter Property="Background" Value="Gray" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding IsEnabled}" Value="False">
                                             <Setter Property="Background" Value="White" />

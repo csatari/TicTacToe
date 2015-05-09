@@ -31,11 +31,25 @@ namespace TicTacToe
 
             // nézemodell létrehozása
             _viewModel = new TicTacToeViewModel(_model);
+            _viewModel.GameEnded += GameEnded;
 
             // nézet létrehozása
             _view = new MainWindow();
             _view.DataContext = _viewModel;
             _view.Show();
+        }
+
+        private void GameEnded(object sender, TicTacToeViewModel.WinEventArgs e)
+        {
+            String jatekos = e.Player ? "O játékos" : "X játékos";
+            if (MessageBox.Show("Vége a játéknak! " + jatekos + " nyert! Szeretnél újra játszani?", "Amőba", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.No)
+            {
+                Application.Current.Shutdown();
+            }
+            else
+            {
+                _viewModel.NewGame();
+            }
         }
     }
 }
